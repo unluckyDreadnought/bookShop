@@ -20,6 +20,45 @@ namespace bookShop
 
         string[] placeholders = { "Логин", "Пароль" };
 
+        private void GenerateCaptcha()
+        {
+            Random rand = new Random();
+            string symbols = "qwertyuiopaSDFGHJKLZXCVBNM01234567890".ToLower();
+            string captcha = "";
+            Color[] bgs = { Color.AliceBlue, Color.AntiqueWhite, Color.Bisque };
+            Color[] lcl = { Color.Cyan, Color.GreenYellow, Color.DarkGoldenrod, Color.Brown };
+            Color bgcolor = bgs[rand.Next(bgs.Length)];
+
+            while (captcha.Length < 4)
+            {
+                captcha += symbols[rand.Next(symbols.Length)];
+            }
+            int n = 0;
+            while (n < 4)
+            {
+                Controls[$"label{n + 4}"].Text = captcha[n].ToString();
+                Controls[$"label{n + 4}"].BackColor = bgcolor;
+                n++;
+            }
+            Bitmap bmp = new Bitmap(pictureBox3.Width, pictureBox3.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.Clear(bgcolor);
+                int c = 0;
+                while (c < 15)
+                {
+                    int x = rand.Next(pictureBox3.Width);
+                    int x1 = rand.Next(pictureBox3.Width);
+                    int y = rand.Next(pictureBox3.Height);
+                    int y1 = rand.Next(pictureBox3.Height);
+                    g.DrawLine(new Pen(lcl[rand.Next(lcl.Length)]), x, y, x1, y1);
+                    c++;
+                }
+                
+            }
+            pictureBox3.Image = bmp;
+        }
+
         private void SetPlaceholder(TextBox txtBox, bool pass = false)
         {
             if (txtBox.Text.Trim().Length == 0)
@@ -45,6 +84,7 @@ namespace bookShop
         {
             SetPlaceholder(textBox1);
             SetPlaceholder(textBox2);
+            GenerateCaptcha();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
