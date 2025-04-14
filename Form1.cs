@@ -70,7 +70,10 @@ namespace bookShop
         {
             if (textBox1.Text == "user" && textBox2.Text == "user")
             {
-                MessageBox.Show("Авторизация");
+                MainF form = new MainF();
+                this.Hide();
+                form.ShowDialog();
+                this.Show();
             }
         }
     }
