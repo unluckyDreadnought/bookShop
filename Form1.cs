@@ -20,6 +20,14 @@ namespace bookShop
 
         string[] placeholders = { "Логин", "Пароль" };
 
+        private void ClearFields()
+        {
+            textBox1.Clear();
+            textBox2.Clear();
+            SetPlaceholder(textBox1);
+            SetPlaceholder(textBox2, true);
+        }
+
         private void GenerateCaptcha()
         {
             Random rand = new Random();
@@ -54,7 +62,7 @@ namespace bookShop
                     g.DrawLine(new Pen(lcl[rand.Next(lcl.Length)]), x, y, x1, y1);
                     c++;
                 }
-                
+
             }
             pictureBox3.Image = bmp;
         }
@@ -64,7 +72,7 @@ namespace bookShop
             if (txtBox.Text.Trim().Length == 0)
             {
                 if (pass) txtBox.UseSystemPasswordChar = false;
-                txtBox.ForeColor = Color.FromArgb(110,110,110);
+                txtBox.ForeColor = Color.FromArgb(110, 110, 110);
                 int n = Convert.ToInt32(txtBox.Name[txtBox.Name.Length - 1].ToString());
                 txtBox.Text = placeholders[n - 1];
             }
@@ -89,8 +97,8 @@ namespace bookShop
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            if (textBox2.UseSystemPasswordChar) pictureBox1.Image = Resources.Default;
-            else pictureBox1.Image = Resources.Variant2;
+            if (textBox2.UseSystemPasswordChar) pictureBox1.Image = Resources.Variant2;
+            else pictureBox1.Image = Resources.Default;
             textBox2.UseSystemPasswordChar = !textBox2.UseSystemPasswordChar;
         }
 
@@ -114,6 +122,11 @@ namespace bookShop
                 this.Hide();
                 form.ShowDialog();
                 this.Show();
+                ClearFields();
+            }
+            else
+            {
+                MessageBox.Show("Не получилось, не фортануло(");
             }
         }
     }
